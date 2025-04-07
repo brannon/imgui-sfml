@@ -20,6 +20,8 @@ set(IMGUI_SFML_CONFIG_DIR ${PROJECT_SOURCE_DIR} CACHE PATH "Path to a directory 
 set(IMGUI_SFML_CONFIG_NAME imconfig-SFML.h CACHE STRING "Name of a custom user ImGui config header")
 set(IMGUI_SFML_CONFIG_INSTALL_DIR "" CACHE PATH "Path where user's config header will be installed")
 
+set(IMGUI_SFML_USE_DEBUG_POSTFIX_FOR_STATIC OFF CACHE BOOL "Use debug postfix for static library")
+
 # For FindImGui.cmake
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
@@ -83,6 +85,8 @@ endif()
 if(BUILD_SHARED_LIBS)
   target_compile_definitions(ImGui-SFML PRIVATE IMGUI_SFML_SHARED_LIB)
   set_target_properties(ImGui-SFML PROPERTIES DEFINE_SYMBOL "IMGUI_SFML_EXPORTS")
+  set_target_properties(ImGui-SFML PROPERTIES DEBUG_POSTFIX "_d")
+elseif(IMGUI_SFML_USE_DEBUG_POSTFIX_FOR_STATIC)
   set_target_properties(ImGui-SFML PROPERTIES DEBUG_POSTFIX "_d")
 endif()
 if(IMGUI_SFML_DISABLE_OBSOLETE_FUNCTIONS)
